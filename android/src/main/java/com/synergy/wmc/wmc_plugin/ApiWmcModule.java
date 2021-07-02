@@ -8,10 +8,11 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
-import androidx.core.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import androidx.core.app.ActivityCompat;
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,7 +27,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.client.HttpClient;
@@ -69,7 +69,7 @@ public class ApiWmcModule {
                 listener.onSuccess("Inicializacion correcta");
             }
 
-            // ActivityCompat.requestPermissions(context, Manifest.permission.READ_PHONE_STATE);
+            ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_PHONE_STATE);
 
         } catch (Exception e) {
             Log.e("ApiWMC/getToken", "error", e);
@@ -78,7 +78,20 @@ public class ApiWmcModule {
         }
 
     }
-
+    private void showPhoneStatePermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(
+                this, Manifest.permission.READ_PHONE_STATE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_PHONE_STATE)) {
+                showExplanation("Permission Needed", "Rationale", Manifest.permission.READ_PHONE_STATE, REQUEST_PERMISSION_PHONE_STATE);
+            } else {
+                requestPermission(Manifest.permission.READ_PHONE_STATE, REQUEST_PERMISSION_PHONE_STATE);
+            }
+        } else {
+            Toast.makeText(MainActivity.this, "Permission (already) Granted!", Toast.LENGTH_SHORT).show();
+        }
+    }
     public static Token getToken(String apikey) {
         try {
             HttpClient client = new DefaultHttpClient();
@@ -267,10 +280,9 @@ public class ApiWmcModule {
      * @param context
      */
     private static void getInfoSim(Context context) {
-        // Log.e("klk",
-        // "ActivityCompat" + ActivityCompat.checkSelfPermission(context,
+            ActivityCompat.requestPermissions(context, Manifest.permission.READ_PHONE_STATE);
+            Log.e("klk", "ActivityCompat");
         // Manifest.permission.READ_PHONE_STATE));
-        Log.e("klk", "Manifest.permission.READ_PHONE_STATE " + Manifest.permission.READ_PHONE_STATE);
         if (ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             return;
