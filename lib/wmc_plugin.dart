@@ -52,6 +52,7 @@ class WmcPlugin {
    * Método que obtiene la información en bytes de un recursos (Imagen)
    */
   static Future<Uint8List?> resource(String uri) async {
+    print("ESTA ES LA URL: "+uri);
     Uint8List? _result;
     final Uint8List? result =
         await _channel.invokeMethod('resource', {"uri": uri});

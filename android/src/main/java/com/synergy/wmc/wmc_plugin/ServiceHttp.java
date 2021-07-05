@@ -102,6 +102,7 @@ public class ServiceHttp {
         MethodHttp methodHttp = MethodHttp.valueOf(method);
 
         Log.e("ApiWMC/get", "session react " + sesion);
+        Log.e("ApiWMC/get", "session react " + sesion);
         Log.e("ApiWMC/get", "Url react " + uri);
         Log.e("ApiWMC/get", "client " + httpclient.toString());
 
@@ -197,6 +198,9 @@ public class ServiceHttp {
         try {
             HttpGet get = new HttpGet(uri);
             get.setConfig(config);
+            System.out.println("ApiWMC GET:" + get);
+            System.out.println("ApiWMC/get CONFIG:" + config);
+            Log.e("ApiWMC/get", "session react " + sesion);
 
             String credential = Credentials.basic(sesion.getUsername(), sesion.getPassword());
             get.setHeader("sessionid", sesion.getSessionid());
