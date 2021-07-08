@@ -33,7 +33,7 @@ public class SwiftWmcPlugin: NSObject, FlutterPlugin {
                  "flutter arguments in method: (sendParams)", details: nil))
             }
             
-        }else if call.method == "request"{
+        }else if call.method == "request"{ 
             guard let args = call.arguments else {
               return
             }
@@ -42,7 +42,8 @@ public class SwiftWmcPlugin: NSObject, FlutterPlugin {
                 let uri = myArgs["uri"] as? String,
                 let method = myArgs["method"] as? String,
                 let options = myArgs["options"] as? Dictionary<String,String>,
-                let data = myArgs["data"] as? Dictionary<String,String>{
+//                let data = myArgs["data"] as? Dictionary<String,Any>{
+                let data = myArgs["data"] {
                 ApiWmcModule.shared.request(uri: uri, method: method, options: options, data: data) { (response) in
                      
                     switch(response){
