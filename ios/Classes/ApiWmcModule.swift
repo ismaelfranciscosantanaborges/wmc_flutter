@@ -129,7 +129,8 @@ class ApiWmcModule{
     * @param listener
     */
      
-    func request(uri:String,method:String,options:Dictionary<String,String>,data:Dictionary<String,String>,completion success: @escaping (Result<Dictionary<String,String>>) -> Void){
+//    func request(uri:String,method:String,options:Dictionary<String,String>,data:Dictionary<String,Any>,completion success: @escaping (Result<Dictionary<String,String>>) -> Void){
+        func request(uri:String,method:String,options:Dictionary<String,String>,data:Any,completion success: @escaping (Result<Dictionary<String,String>>) -> Void){
         let transport = Utils.getTypeConnection()
         //Obtiene y verifica session valida
          
